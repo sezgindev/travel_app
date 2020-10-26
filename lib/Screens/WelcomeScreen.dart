@@ -100,6 +100,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
                 decoration: kBoxDecorationWelcome.copyWith(
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(35)),
                   color: Color(0xFFD5A319),
                 ),
               ),
