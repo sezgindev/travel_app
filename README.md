@@ -3,7 +3,6 @@
 A new Flutter application. This app is ui content for now.
 
 Profile Page  
-![Screenshot_1604178317](https://user-images.githubusercontent.com/24322384/97790199-a7ad4080-1bd7-11eb-9de5-e86d9a0c9fe2.png)
 User Login  
 User Register  
 Home Page  
