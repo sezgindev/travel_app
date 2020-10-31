@@ -1,6 +1,14 @@
-# travel_app
+# Travel App
 
-A new Flutter application.
+A new Flutter application. This app is ui content for now.
+
+User Login  
+User Register  
+Home Page  
+Profile Page  
+Detail Page  
+
+I used Getx package for state managament.
 
 ## Getting Started
 
