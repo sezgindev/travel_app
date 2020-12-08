@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:travel_app/Screens/MainScreen.dart';
 import 'package:travel_app/constants.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -8,6 +11,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  bool showSpinner = false;
+  String email;
+  String password;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -47,6 +54,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Container(
                     width: width * 0.75,
                     child: TextFormField(
+                      onChanged: (value) {
+                        email = value;
+                      },
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: "Enter email",
                           prefixIcon: Icon(
@@ -67,6 +77,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     child: Container(
                       width: width * 0.75,
                       child: TextFormField(
+                        onChanged: (value) {
+                          password = value;
+                        },
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: "Enter password",
                             prefixIcon: Icon(
@@ -87,11 +100,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: height * 0.02),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState.validate()) {
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          try {
+                            final newUser =
+                                await _auth.createUserWithEmailAndPassword(
+                                    email: email, password: password);
+                            if (newUser != null) {
+                              Get.to(MainScreen());
+                            }
+
+                            setState(() {
+                              showSpinner = false;
+                            });
+                          } catch (e) {
+                            print(e);
+                          }
                           // If the form is valid, display a Snackbar.
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')));
+
                         }
                       },
                       child: Container(

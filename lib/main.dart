@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_app/Screens/DetailScreen.dart';
@@ -9,7 +10,15 @@ import 'package:travel_app/Screens/ProfileScreen.dart';
 import 'package:travel_app/Screens/RegistrationScreen.dart';
 import 'package:travel_app/Screens/WelcomeScreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      name: 'travel-app',
+      options: const FirebaseOptions(
+          appId: 'travel-app-fd602',
+          apiKey: 'AIzaSyB3FVWTrEJlGJenNTQGeHM9KDqLiCp19YU',
+          messagingSenderId: '430583146229',
+          projectId: 'travel-app'));
   runApp(MyApp());
 }
 
@@ -26,9 +35,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen(),
-
-      // initialRoute: WelcomeScreen.id, //ilk açılacak ekran
+      home: LoginScreen(),
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         UserProfile.id: (context) => UserProfile(),

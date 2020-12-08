@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:travel_app/Screens/MainScreen.dart';
 import 'package:travel_app/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,6 +12,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  final _auth = FirebaseAuth.instance;
+  bool showSpinner = false;
+  String email;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     width: width * 0.75,
                     child: TextFormField(
+                      onChanged: (value) {
+                        email = value;
+                      },
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: "Enter email",
                           prefixIcon: Icon(
@@ -70,6 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       width: width * 0.75,
                       child: TextFormField(
+                        onChanged: (value) {
+                          password = value;
+                        },
                         decoration: kTextFieldDecoration.copyWith(
                             hintText: "Enter password",
                             prefixIcon: Icon(
@@ -90,11 +104,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: height * 0.02),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState.validate()) {
-                          // If the form is valid, display a Snackbar.
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data')));
+                          setState(() {
+                            showSpinner = true;
+                          });
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: email, password: password);
+                            if (user != null) {
+                              Get.to(MainScreen());
+                              print("giris basarili");
+                            }
+
+                            setState(() {
+                              showSpinner = false;
+                            });
+                          } catch (e) {
+                            print(e);
+                          }
                         }
                       },
                       child: Container(
